@@ -4,12 +4,14 @@ set -e
 
 EXTRACTED=b-ex
 
+# Download apktool if not already present or update to latest version
+echo "[INFO] Checking apktool..."
+bash scripts/download_apktool.sh
+
 if [[ -d "$EXTRACTED" ]]; then
 	echo "[NOTE] Directory $EXTRACTED already exists."
 else
 	# Decompile with Apktool (decode resources + classes)
-	echo "[INFO] Downloading apktool"
-	curl -sL https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.12.1.jar -O apktool.jar
 	echo "[INFO] apktool version $(java -jar apktool.jar -version)"
 	echo "[INFO] Decompiling Brave browser APK"
 	java -jar apktool.jar d brave.apk -r -o $EXTRACTED
