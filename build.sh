@@ -1,6 +1,6 @@
 #!/bin/bash
-
 set -e
+LC_ALL=C
 
 EXTRACTED=b-ex
 
@@ -18,9 +18,7 @@ else
 	echo "[INFO] Removing META-INF directory"
 	rm -rf $EXTRACTED/META-INF
 fi
-
 pushd $EXTRACTED
-
 function patch() {
 	local name="$1"
 	echo "[INFO] Patching $name"
@@ -44,4 +42,3 @@ echo "[INFO] Aligning the APK"
 zipalign -p -f 4 b-patched.apk b-signed.apk
 # Clean up
 rm -rf b-patched.apk
-
