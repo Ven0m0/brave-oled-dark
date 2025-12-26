@@ -39,9 +39,9 @@ echo "[INFO] Found $TOTAL_STRINGS total string resources"
 set +e
 while IFS= read -r file; do
     # For smali files, look for string references
-    grep -o 'string/[a-zA-Z0-9_]\+' "$file" 2>/dev/null >>"$USED"
+    grep -o 'string/[a-zA-Z0-9_.]\+' "$file" 2>/dev/null >>"$USED"
     # For XML files, look for @string/ references
-    grep -o '@string/[a-zA-Z0-9_]\+' "$file" 2>/dev/null >>"$USED"
+    grep -o '@string/[a-zA-Z0-9_.]\+' "$file" 2>/dev/null >>"$USED"
 done <"${TMP_DIR}"/files
 set -e
 
