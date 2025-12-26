@@ -38,7 +38,7 @@ echo "[INFO] Found $TOTAL_STRINGS total string resources"
 
 # Get a list of all strings that are actually used
 set +e
-while IFS= read -r file; do
+while IFS= read -r -d '' file; do
     # For smali files, look for string references
     grep -o 'string/[a-zA-Z0-9_.]\+' "$file" 2>/dev/null >>"$USED"
     # For XML files, look for @string/ references
