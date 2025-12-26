@@ -26,7 +26,7 @@ ALL_STRINGS="${TMP_DIR}"/all
 
 # First we find what files to search and what strings are defined
 echo "[INFO] Finding XML and smali files..."
-find . -type f \( -iname '*.xml' -a -not -iname '*strings.xml' \) -o -iname '*.smali' | grep -v drawable >"${TMP_DIR}"/files
+find . -type f \( -iname '*.xml' -a -not -iname '*strings.xml' \) -o -iname '*.smali' -print0 | grep -z -v drawable >"${TMP_DIR}"/files
 
 # Get all defined strings
 echo "[INFO] Extracting defined strings..."
