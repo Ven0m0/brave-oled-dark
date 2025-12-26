@@ -52,7 +52,7 @@ USED_COUNT=$(wc -l < "$FILTERED")
 echo "[INFO] Found $USED_COUNT used string resources"
 
 # Get unused strings (strings in strings.xml but not in used list)
-cat "$FILTERED" "$ALL_STRINGS" | sort | uniq -u >"$UNUSED"
+comm -13 "$FILTERED" "$ALL_STRINGS" >"$UNUSED"
 
 UNUSED_COUNT=$(wc -l < "$UNUSED")
 if [ "$UNUSED_COUNT" -eq 0 ]; then
