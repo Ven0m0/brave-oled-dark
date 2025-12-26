@@ -19,6 +19,7 @@ if [ -z "$STRINGS_FILE" ]; then
 fi
 
 TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
 USED="${TMP_DIR}"/used
 UNUSED="${TMP_DIR}"/unused
 FILTERED="${TMP_DIR}"/filtered
