@@ -30,7 +30,7 @@ find . -type f \( -iname '*.xml' -a -not -iname '*strings.xml' \) -o -iname '*.s
 
 # Get all defined strings
 echo "[INFO] Extracting defined strings..."
-find res/values* -name 'strings.xml' -type f -exec grep -h "string name" {} \; | cut -d'"' -f2 | sort -u >"$ALL_STRINGS"
+find res/values* -name 'strings.xml' -type f -print0 | xargs -0 grep -h '<string name' | sed -n 's/.*<string name="\([^"]*\)".*/\1/p' | sort -u >"$ALL_STRINGS"
 
 TOTAL_STRINGS=$(wc -l < "$ALL_STRINGS")
 echo "[INFO] Found $TOTAL_STRINGS total string resources"
