@@ -64,17 +64,16 @@ fi
 echo "[INFO] Found $UNUSED_COUNT potentially unused strings, removing..."
 
 # Remove unused strings from all strings.xml files
-REMOVED=0
+sed_script="${TMP_DIR}/deletions.sed"
 while IFS= read -r string; do
-    echo "[INFO] Removing unused string: $string"
-    find res -iname '*strings.xml' -type f | while IFS= read -r file; do
-        if grep -q "string name=\"${string}\"" "$file" 2>/dev/null; then
-            sed "/string name=\"${string}\"/d" "$file" >"${file}.new"
-            mv "${file}.new" "$file"
-            REMOVED=$((REMOVED + 1))
-        fi
-    done
+    # Escape special characters in string name for sed
+    escaped_string=$(printf '%s\n' "$string" | sed 's:[\[\]\\/.^$*]:\\&:g')
+    echo "/<string name=\"${escaped_string}\"/d" >> "$sed_script"
 done <"$UNUSED"
+
+find res -iname '*strings.xml' -type f -print0 | while IFS= read -r -d '' file; do
+    sed -f "$sed_script" "$file" > "${file}.new" && mv "${file}.new" "$file"
+done
 
 echo "[INFO] Removed $UNUSED_COUNT unused string resources"
 rm -rf "$TMP_DIR"
