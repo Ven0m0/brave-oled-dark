@@ -23,6 +23,5 @@ if [ "$PNG_COUNT" -eq 0 ]; then
 fi
 
 echo "[INFO] Found $PNG_COUNT PNG files to optimize"
-# shellcheck disable=SC2038
-find . -type f -iname '*.png' | xargs -P "$NPROC" -I {} optipng -o7 {}
+find . -type f -iname '*.png' -print0 | xargs -0 -P "$NPROC" optipng -o7
 echo "[INFO] PNG optimization complete"
